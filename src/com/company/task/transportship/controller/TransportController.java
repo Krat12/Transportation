@@ -53,6 +53,10 @@ public class TransportController implements TransportHandler {
 
             transport.setProducts(productsModel);
 
+            if(productsModel.size() == 1){
+                return data;
+            }
+
             return transportService.countProduct(transport);
 
         }catch (Exception e){

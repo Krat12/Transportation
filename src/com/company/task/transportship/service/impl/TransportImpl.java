@@ -51,11 +51,15 @@ public class TransportImpl implements TransportService {
 
                 weightCount = weightCount + productNext.getWeight();
 
-                 checkFullWeight(transport,productNext,productSet,productInit,map);
+                checkFullWeight(transport, productNext, productSet, productInit, map);
 
             }
 
-            map.put(costCount, productSet);
+            if (weightCount <= transport.getCarrying()) {
+                map.put(costCount, productSet);
+            }
+
+
         }
 
         return getStringResult(map);
@@ -83,8 +87,9 @@ public class TransportImpl implements TransportService {
 
         Integer max = getMaxCost(map);
 
-        for (Product product : map.get(max)) {
-            stringBuilder.append(product.getName()).append(" ");
+            for (Product product : map.get(max)) {
+                stringBuilder.append(product.getName()).append(" ");
+
         }
         return stringBuilder.toString() + max;
     }
@@ -97,7 +102,7 @@ public class TransportImpl implements TransportService {
         weightCount = product.getWeight();
     }
 
-    private void checkFullWeight(Transport transport, Product next, Set<Product> productSet, Product init, Map<Integer, Set<Product>> map){
+    private void checkFullWeight(Transport transport, Product next, Set<Product> productSet, Product init, Map<Integer, Set<Product>> map) {
 
         if (weightCount <= transport.getCarrying()) {
 
@@ -107,11 +112,11 @@ public class TransportImpl implements TransportService {
 
             productSet.add(init);
 
-            if(weightCount.equals(transport.getCarrying())){
+            if (weightCount.equals(transport.getCarrying())) {
 
                 Set<Product> products = new HashSet<>(productSet);
 
-                map.put(costCount,products);
+                map.put(costCount, products);
 
                 productSet.clear();
 
@@ -124,10 +129,6 @@ public class TransportImpl implements TransportService {
             weightCount = weightCount - next.getWeight();
         }
     }
-
-
-
-
 
 
 }
